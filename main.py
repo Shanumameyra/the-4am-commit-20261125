@@ -12,6 +12,11 @@ import os
 
 MESSAGE = "fix: 4am \u2014 fired the agent who wrote this bug; it was me, twenty minutes ago, and I would like a word with me"
 
+# The brief caps the message at 200 characters on one line; refuse to emit
+# anything that breaks that limit instead of silently writing a bad entry.
+if len(MESSAGE) > 200 or "\n" in MESSAGE:
+    raise SystemExit("entry must be one line of at most 200 characters")
+
 
 def main() -> None:
     for out_dir in ("/output", os.path.join(os.getcwd(), "output")):
